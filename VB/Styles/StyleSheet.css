@@ -1,0 +1,13 @@
+﻿.MySelectedItem td {
+    font-weight: bold;
+    color: white;
+    background-color: red;
+}
+
+.MyGreen {
+    color: forestgreen;
+}
+
+.MyBlue {
+    color: dodgerblue;
+}
