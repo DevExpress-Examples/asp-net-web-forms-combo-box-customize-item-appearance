@@ -1,29 +1,46 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/128530660/16.2.3%2B)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E4100)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-<!-- default badges end -->
-<!-- default file list -->
-*Files to look at*:
-
-* [Default.aspx](./CS/Default.aspx) (VB: [Default.aspx](./VB/Default.aspx))
-* [Default.aspx.cs](./CS/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/Default.aspx.vb))
-<!-- default file list end -->
-# ASPxComboBox - How to change a color of text for certain items
+# Combo Box for ASP.NET Web Forms - How to customize an item's appearance
 <!-- run online -->
 **[[Run Online]](https://codecentral.devexpress.com/e4100/)**
 <!-- run online end -->
 
+This example demonstrates how to create a combo box editor and use its client-side functionality to specify the appearance of the editor's items.
 
-<p><strong>Updated:<br></strong><br>Starting with version 16.2, this functionality is available out of the box. We implemented a new client-side API in ASPxComboBox, ASPxListBox and ASPxTokenBox that allows you to change style, tool-tip and structure of  items: the SetItemTooltip, AddItemCssClass, RemoveItemCssClass, and SetItemHtml methods.  </p>
-<p><br><strong>For earlier versions:</strong><br><br>This example illustrates how to customize a style for each item. Since the color is changed for an HTML element, it is necessary to synchronize these settings on each round-trip to the server. To do this, handle the client-side combo box' Init and EndCallback event.</p>
-<p><strong>Note:</strong> the <em>GetItemElement</em> and <em>GetItemRow</em> methods are undocumented and can be changed without any notification with future releases.</p>
+![Customize combo box items](comboBoxItems.png)
 
+## Overview
 
-<h3>Description</h3>
+Create a combo box editor and use its client-side [GetSelectedIndex](https://docs.devexpress.com/AspNet/js-ASPxClientComboBox.GetSelectedIndex) method to identify the editor’s selected item by its index. Call the editor's [SetItemTooltip](https://docs.devexpress.com/AspNet/js-ASPxClientComboBox.SetItemTooltip(index-tooltip)) method to assign a tooltip to the specified item. To customize the item's style settings, use the editor's client-side [AddItemCssClass](https://docs.devexpress.com/AspNet/js-ASPxClientComboBox.AddItemCssClass(index-className)) and [RemoveItemCssClass](https://docs.devexpress.com/AspNet/js-ASPxClientComboBox.RemoveItemCssClass(index-className)) methods.
 
-See&nbsp;the&nbsp;SetItemTooltip,&nbsp;AddItemCssClass,&nbsp;RemoveItemCssClass, and&nbsp;SetItemHtml methods.
+```js
+function onSelectedIndexChanged(sender, target) {
+    if (sender.PrevIndex != undefined) {
+        target.SetItemTooltip(sender.PrevIndex, "");
+        target.RemoveItemCssClass(sender.PrevIndex, "MySelectedItem");
+    }
+    target.SetItemTooltip(sender.GetSelectedIndex(), "This item is selected in another combobox");
+    target.AddItemCssClass(sender.GetSelectedIndex(), "MySelectedItem");
+    sender.PrevIndex = sender.GetSelectedIndex();
+}
+```
 
-<br/>
+```aspx
+<dx:ASPxComboBox ID="MyTestComboBox1" runat="server" ClientInstanceName="combo1">
+    <Items>
+        <!-- ... -->
+    </Items>
+    <ClientSideEvents SelectedIndexChanged="function (s, e) { onSelectedIndexChanged(s, combo2); }"
+        Init="SetItemColor" EndCallback="SetItemColor" />
+</dx:ASPxComboBox>
+<dx:ASPxComboBox ID="MyTestComboBox2" runat="server" ClientInstanceName="combo2">
+    <Items>
+        <!-- ... -->
+    </Items>
+    <ClientSideEvents SelectedIndexChanged="function (s, e) { onSelectedIndexChanged(s, combo1); }"
+        Init="SetItemColor" EndCallback="SetItemColor" />
+</dx:ASPxComboBox>
+```
 
+## Files to Review
 
+* [Default.aspx](./CS/Default.aspx) (VB: [Default.aspx](./VB/Default.aspx))
+* [Default.aspx.cs](./CS/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/Default.aspx.vb))

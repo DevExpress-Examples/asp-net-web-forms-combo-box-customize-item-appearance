@@ -9,14 +9,15 @@
     <title></title>
     <script type="text/javascript">
         function onSelectedIndexChanged(sender, target) {
-            target.SetItemTooltip(sender.PrevIndex, "");
+            if (sender.PrevIndex != undefined) {
+                target.SetItemTooltip(sender.PrevIndex, "");
+                target.RemoveItemCssClass(sender.PrevIndex, "MySelectedItem");
+            }
             target.SetItemTooltip(sender.GetSelectedIndex(), "This item is selected in another combobox");
-            target.RemoveItemCssClass(sender.PrevIndex, "MySelectedItem");
             target.AddItemCssClass(sender.GetSelectedIndex(), "MySelectedItem");
             sender.PrevIndex = sender.GetSelectedIndex();
         }
         function SetItemColor(s, e) {
-            s.PrevIndex = null;
             for (i = 0; i < s.GetItemCount() ; i++) {
                 var rowClass = (i % 2 == 0) ? "MyGreen" : "MyBlue";
                 s.AddItemCssClass(i, rowClass);
