@@ -10,9 +10,6 @@
 * [JScript.js](./CS/WebSite/Scripts/JScript.js) (VB: [JScript.js](./VB/WebSite/Scripts/JScript.js))
 <!-- default file list end -->
 # ASPxComboBox - How to change a color of text for certain items
-<!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/128530660/)**
-<!-- run online end -->
 
 
 <p><strong>Updated:<br></strong><br>Starting with version 16.2, this functionality is available out of the box. We implemented a new client-side API in ASPxComboBox, ASPxListBox and ASPxTokenBox that allows you to change style, tool-tip and structure of  items: the SetItemTooltip, AddItemCssClass, RemoveItemCssClass, and SetItemHtml methods.  </p>
